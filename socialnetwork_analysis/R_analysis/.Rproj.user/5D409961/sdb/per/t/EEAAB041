@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "edge0 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/0.edges\", header = F)\nedge107 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/107.edges\", header = F)\nedge348 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/348.edges\", header = F)\nedge414 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/414.edges\", header = F)\nedge686 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/686.edges\", header = F)\nedge698 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/698.edges\", header = F)\nedge1684 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/1684.edges\", header = F)\nedge1912 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/1912.edges\", header = F)\nedge3437 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/3437.edges\", header = F)\nedge3980 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/3980.edges\", header = F)\n\ntotaledges <- rbind(edge0,edge107)\ntotaledges <- rbind(totaledges,edge348,edge414,edge686,edge698,edge1684,edge1912,edge3437,edge3980)\n\ng <- graph.data.frame(totaledges)\ng <-simplify(g)\nplot(g)\nhist(degree(g))\n\nlocs <- layout.fruchterman.reingold(g)\nplot(g, layout=locs, vertex.label=NA, main=\"Original\",vertex.color=degree(g))\nvertex.color=V(g)$color\n\ndegree(g)\n\nsubg <- subgraph.edges(g, E(g)[patent %in% patents[okpatents]])\n\n#extract subgraph\nsubg <- subgraph.edges(g, E(g)[patent %in% patents[okpatents]])\n\n#verify\nplot(gs, edge.label=E(subg)$patent)\n\n\n",
+    "created" : 1487875685892.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "309977301",
+    "id" : "EEAAB041",
+    "lastKnownWriteTime" : 1487727886,
+    "last_content_update" : 1487727886,
+    "path" : "~/Desktop/Courses/Big Data/project1/BigDataP1/totaledges.spin.R",
+    "project_path" : "totaledges.spin.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

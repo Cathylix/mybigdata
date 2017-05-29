@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "edge0 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/0.edges\", header = F)\nedge107 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/107.edges\", header = F)\nedge348 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/348.edges\", header = F)\nedge414 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/414.edges\", header = F)\nedge686 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/686.edges\", header = F)\nedge698 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/698.edges\", header = F)\nedge1684 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/1684.edges\", header = F)\nedge1912 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/1912.edges\", header = F)\nedge3437 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/3437.edges\", header = F)\nedge3980 <- read.table(\"/Users/Cathy/Desktop/Courses/Big Data/project1/facebook/3980.edges\", header = F)\n\n\ntotaledges <- rbind(edge0,edge107,edge348,edge414,edge686,edge698,edge1684,edge1912,edge3437,edge3980)\ng <- graph.data.frame(totaledges)\ng <-simplify(g)\nplot(g)\n\n#Function 1 Degree and degree distribution of the vertices\nhist(degree(g))\nplot(degree.distribution(g))\n\n#Function 2 Delete vertices\ndegree300 <- delete.vertices(g,V(g)[degree(g)<300])\nplot(degree300)\ndegree400 <- delete.vertices(g,V(g)[degree(g)<400])\nplot(degree400, layout = layout.fruchterman.reingold)\n\n#Function 3 Use layout format\nlocs <- layout.fruchterman.reingold(degree400)\nplot(degree400, layout=locs, vertex.label=NA, main=\"Original\",vertex.color=degree(degree400))\nvertex.color=V(g)$color\n\n#Function 4 Generate subgraph\nsubdegree400 <- subgraph.edges(degree400, 1:5) \nplot(subdegree400)\nsubdegree400 <- subgraph.edges(degree400, 1:10) \nplot(subdegree400)\n\n\nplot(subdegree400)\n\n#Function 5 Set vertice attribute\nV(subdegree400)$color <- sample( c(\"red\", \"black\"), vcount(subdegree400), rep=TRUE)\nE(subdegree400)$color <- \"grey\"\nred <- V(subdegree400)[ color == \"red\" ]\nblack <- V(subdegree400)[ color == \"black\" ]\nE(subdegree400)[ red %--% red ]$color <- \"red\"\nE(subdegree400)[ black %--% black ]$color <- \"black\"\n\n#Function 6 Change size of vertices\nsubdegree400sizechange <- subdegree400\nV(subdegree400sizechange)$size <- degree(subdegree400sizechange)*2\nplot(subdegree400sizechange, layout = layout.fruchterman.reingold)\n\n#Function 7 Set Edge attribute\nE(subdegree400)$weight <- runif(ecount(subdegree400))\nE(subdegree400)$color <- \"grey\"\nE(subdegree400)[ weight > 0.9 ]$color <- \"red\"\nplot(subdegree400, vertex.size=12, layout=layout.kamada.kawai,edge.width=0.2+1*E(subdegree400)$weight)\n\n#Function 8 Betweenness\nhead(betweenness(subdegree400),50)\nsub2degree400 <- subgraph.edges(degree400, 1:10)\nhead(betweenness(sub2degree400),50)\nhead(betweenness(degree400),50)\n\n#Function 9 Closeness\nhead(closeness(subdegree400),50)\nsub2degree400 <- subgraph.edges(degree400, 1:10)\nhead(closeness(sub2degree400),50)\nhead(closeness(degree400),50)\n\n#Function 10 Average path\naverage.path.length(subdegree400)\naverage.path.length(sub2degree400)\naverage.path.length(degree400)\n\n#Function 11 Cliques\nhead(cliques(degree400),10)\nhead(cliques(subdegree400),10)\nhead(cliques(sub2degree400),10)",
+    "created" : 1487881183779.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "503677264",
+    "id" : "6A832DFB",
+    "lastKnownWriteTime" : 1487881172,
+    "last_content_update" : 1487881278555,
+    "path" : "~/Desktop/Courses/Big Data/project1/BigDataP1/Rp.R",
+    "project_path" : "Rp.R",
+    "properties" : {
+        "docOutlineVisible" : "0",
+        "notebook_format" : "html_document",
+        "source_window_id" : "",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

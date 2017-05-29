@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(igraph)\n\n#the nodeID of the files\nfileIndex <- c(0, 107, 348, 414, 686, 698, 1684, 1912, 3437, 3980)\n\n#get edge data from .edges files\ngetEdges <- function(i) {\n  #you can add you file address here\n  edge <- read.table(paste(\"/Users/xiaonanwu/Downloads/facebook/\", as.character(fileIndex[i]), \".edges\", sep=\"\"), fill=TRUE)\n  edge <- as.matrix(edge)\n  return (edge)\n}\n\n#get circle data from .circles files\ngetCircles <- function(i) {\n  Circles <- file(paste(\"/Users/xiaonanwu/Downloads/facebook/\", as.character(fileIndex[i]), \".circles\", sep=\"\"))\n  circles <- readLines(Circles)\n  circleEdge <- transCircle(circles, i)\n  return (circleEdge)\n}\n\n#transfer circle into edge list\ntransCircle <- function (circles, i) {\n  circleEdge <- c()\n  for (i in 1:length(circles)) {\n    circle_line <- unlist(strsplit(circles[i], split = \"\\t\"))   \n    circle_line <- as.numeric(circle_line)\n  \n    #each circle_line means a circle\n    \n    curMatrix <-  matrix(nrow = length(circle_line), ncol = 2)\n    \n    #the first row in the matrix means the NodeID connected to the first element in the circel\n    curMatrix[1,1] <- fileIndex[i]\n    curMatrix[1,2] <- circle_line[2]   #the first element is converted as NA\n   \n     for (j in 2:(length(circle_line) - 1)) {\n      curMatrix[j,1] <- circle_line[2]\n      curMatrix[j,2] <- circle_line[j + 1]\n    }\n    \n    circleEdge <- rbind(circleEdge, curMatrix)\n  }\n  return (circleEdge)\n}\n\ntotalEdges <- c()\n#main method\nfor(i in 1:10){\n  #read in all the .edges files\n  currEdge <- getEdges(i)\n  totalEdges <- rbind(totalEdges, currEdge)\n  \n  #read in all the .ciecles files\n  currCircle <- getCircles(i)\n  totalEdges <- rbind(totalEdges, currCircle)\n}\n\n#generate the graph \nnew_graph <- graph.data.frame(d = totalEdges, directed = FALSE)\n\n#simplify the graph\ng <- simplify(new_graph)\n\nplot(g, vertex.size = 10, vertex.label = NA) \n",
+    "created" : 1487880835544.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "18574529",
+    "id" : "52F72BDC",
+    "lastKnownWriteTime" : 1487880833,
+    "last_content_update" : 1487880833,
+    "path" : "~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/DAE67CE7-CC9F-4818-81AC-1E2666F67811/P1-graph.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
